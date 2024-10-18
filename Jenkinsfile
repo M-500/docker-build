@@ -42,26 +42,26 @@ pipeline{
                 sh "ssh -o Port=6000 linlin@124.223.67.129 'docker pull ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
             }
         }
-//         stage("停止远端服务器上的旧容器"){
-//             steps {
-//                 script{
-//                     def containerId = sh(script: "docker ps -q -f name=${CONTAINER_NAME}", returnStdout: true).trim()
-//                      if (containerId) {
-//                          echo "Found running container with ID: ${containerId}. Stopping and removing it."
-//                          // stop and remove the old container
-//                          sh "docker stop ${CONTAINER_NAME}"
-//                          sh "docker rm ${CONTAINER_NAME}"
-//                      } else {
-//                          echo "No running container found with name: ${CONTAINER_NAME}."
-//                      }
-//                      echo "Old container stopped and removed."}
-//             }
-//         }
-//         stage("远端服务器启动新容器"){
-//             steps {
-//                 sh "ssh -o Port=6000 linlin@124.223.67.129 'docker run -d --name ${CONTAINER_NAME} -p 8080:8080 ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
-//             }
-//         }
+        stage("停止远端服务器上的旧容器"){
+            steps {
+                script{
+                    def containerId = sh(script: "docker ps -q -f name=${CONTAINER_NAME}", returnStdout: true).trim()
+                     if (containerId) {
+                         echo "Found running container with ID: ${containerId}. Stopping and removing it."
+                         // stop and remove the old container
+                         sh "docker stop ${CONTAINER_NAME}"
+                         sh "docker rm ${CONTAINER_NAME}"
+                     } else {
+                         echo "No running container found with name: ${CONTAINER_NAME}."
+                     }
+                     echo "Old container stopped and removed."}
+            }
+        }
+        stage("远端服务器启动新容器"){
+            steps {
+                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker run -d --name ${CONTAINER_NAME} -p 18181:8181 ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
+            }
+        }
     }
     post{
         always{
