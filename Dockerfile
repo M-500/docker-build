@@ -10,13 +10,9 @@ ENV GO111MODULE=on \
 
 # 设置build目录
 WORKDIR /build
-# 先复制go.mod和go.sum文件，下载依赖
-COPY go.mod ./
-COPY go.sum ./
 
-RUN go mod download
-# 再复制其他代码文件
 COPY . .
+RUN go mod download
 
 # 编译成可执行文件，其文件名为hello  编译的文件为 main.go
 RUN go build -ldflags "-s -w" -o hello  main.go
