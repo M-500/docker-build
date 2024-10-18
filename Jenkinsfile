@@ -29,7 +29,7 @@ pipeline{
                 // 登录harbor镜像仓库
                 sh "docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${HARBOR_URL}"
                 // 给镜像打标签
-                sh "docker tag ${IMAGE_NAME} ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
+                sh "docker tag ${IMAGE_NAME} ${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
                 // 推送到harbor
                 sh "docker push ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
                 // 登出
