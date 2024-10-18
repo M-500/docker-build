@@ -31,7 +31,7 @@ pipeline{
                 // 给镜像打标签
                 sh "docker tag ${IMAGE_NAME} ${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
                 // 推送到harbor
-                sh "docker push ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
+                sh "docker push ${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG}"
                 // 登出
                 sh "docker logout ${HARBOR_URL}"
             }
