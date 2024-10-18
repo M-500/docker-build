@@ -1,18 +1,11 @@
 # 阶段一: 打包阶段
 FROM golang:1.22-alpine as builder
 
-# 为我们的镜像设置必要的环境变量
-ENV GO111MODULE=on \
-    GOPROXY=goproxy.io \
-    CGO_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
-
 # 设置build目录
 WORKDIR /build
 
 COPY . .
-RUN go mod download
+RUN go mod tidy
 
 # 编译成可执行文件，其文件名为hello  编译的文件为 main.go
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o hello main.go
