@@ -36,12 +36,12 @@ pipeline{
                 sh "docker logout ${HARBOR_URL}"
             }
         }
-//         stage ("远端服务器拉取镜像"){
-//             steps {
-//                 sh "ssh -o Port=6000 linlin@124.223.67.129 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${HARBOR_URL} '"
-//                 sh "ssh -o Port=6000 linlin@124.223.67.129 'docker pull ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
-//             }
-//         }
+        stage ("远端服务器拉取镜像"){
+            steps {
+                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${HARBOR_URL} '"
+                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker pull ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
+            }
+        }
 //         stage("停止远端服务器上的旧容器"){
 //             steps {
 //                 script{
