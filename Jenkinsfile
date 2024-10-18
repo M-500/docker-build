@@ -6,13 +6,13 @@ pipeline{
 
         IMAGE_NAME = 'hello'
         CONTAINER_NAME = 'hello-app'
-        HARBOR_URL = '124.223.67.129:8081'
+        HARBOR_URL = 'harbor地址'
         HARBOR_PROJECT = 'deploy-demo'
         // Docker tag
         TAG = "v1.0.1"
         // Docker 用户名和密码（可以通过 Jenkins 凭据管理）
-        DOCKER_USER = 'wulinlin'
-        DOCKER_PASS = 'Wll987055897'
+        DOCKER_USER = '用户名'
+        DOCKER_PASS = '密码'
         //
     }
     stages{
@@ -38,14 +38,14 @@ pipeline{
         }
         stage ("远端服务器拉取镜像"){
             steps {
-                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${HARBOR_URL} '"
-                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker pull ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
+                sh "ssh 用户名@IP地址 'docker login -u ${DOCKER_USER} -p ${DOCKER_PASS} ${HARBOR_URL} '"
+                sh "ssh 用户名@IP地址 'docker pull ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
             }
         }
         stage("停止远端服务器上的旧容器"){
             steps {
                 script{
-                    def containerId = sh(script: "docker ps -q -f name=${CONTAINER_NAME}", returnStdout: true).trim()
+                     def containerId = sh(script: "docker ps -q -f name=${CONTAINER_NAME}", returnStdout: true).trim()
                      if (containerId) {
                          echo "Found running container with ID: ${containerId}. Stopping and removing it."
                          // stop and remove the old container
@@ -59,7 +59,7 @@ pipeline{
         }
         stage("远端服务器启动新容器"){
             steps {
-                sh "ssh -o Port=6000 linlin@124.223.67.129 'docker run -d --name ${CONTAINER_NAME} -p 18181:8181 ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
+                sh "ssh 用户名@IP地址 'docker run -d --name ${CONTAINER_NAME} -p 18181:8181 ${HARBOR_URL}/${HARBOR_PROJECT}/${IMAGE_NAME}:${TAG} '"
             }
         }
     }
